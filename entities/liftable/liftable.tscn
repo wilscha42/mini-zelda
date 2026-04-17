@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://666j634iydra"]
+
+[ext_resource type="Script" uid="uid://dtaujd78a2ayx" path="res://entities/liftable/liftable.gd" id="1_e5gyf"]
+
+[node name="Liftable" type="RigidBody2D" groups=["liftable"]]
+collision_layer = 8
+lock_rotation = true
+script = ExtResource("1_e5gyf")

@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdj02ei3chvyb"]
+
+[ext_resource type="Script" uid="uid://cotom6ignou0f" path="res://entities/rock/rock.gd" id="1_qk3pb"]
+[ext_resource type="Texture2D" uid="uid://ck35tdk68lvky" path="res://entities/rock/rock.png" id="2_a7i8n"]
+[ext_resource type="Script" uid="uid://du4pgf3swa08u" path="res://entities/hitbox/hitbox.gd" id="3_qk3pb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qk3pb"]
+size = Vector2(14, 10)
+
+[node name="Rock" type="RigidBody2D"]
+collision_layer = 8
+lock_rotation = true
+script = ExtResource("1_qk3pb")
+metadata/_custom_type_script = "uid://dtaujd78a2ayx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_qk3pb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -8)
+texture = ExtResource("2_a7i8n")
+
+[node name="Hitbox" type="Area2D" parent="Sprite2D"]
+show_behind_parent = true
+position = Vector2(0, 3)
+collision_layer = 0
+collision_mask = 12
+script = ExtResource("3_qk3pb")
+metadata/_custom_type_script = "uid://du4pgf3swa08u"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hitbox"]
+shape = SubResource("RectangleShape2D_qk3pb")
+debug_color = Color(1, 0.3, 0.2, 0.42)
+
+[connection signal="hit_landed" from="Sprite2D/Hitbox" to="." method="_on_hitbox_hit_landed"]

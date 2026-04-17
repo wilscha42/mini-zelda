@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgk75yhywke6l"]
+
+[ext_resource type="Texture2D" uid="uid://ccgix82xxlv6b" path="res://ui/hud/player_health_bar/heart_symbol_full.png" id="1_l4x3v"]
+[ext_resource type="Script" uid="uid://pmafoou7i7hv" path="res://ui/hud/player_health_bar/heart_symbol.gd" id="1_v7ii0"]
+
+[node name="HeartSymbol" type="TextureRect"]
+texture_filter = 1
+texture = ExtResource("1_l4x3v")
+script = ExtResource("1_v7ii0")
+fill_grade = 4

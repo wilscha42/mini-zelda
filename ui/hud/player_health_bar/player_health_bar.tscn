@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnnk1km4basfy"]
+
+[ext_resource type="Script" uid="uid://crdm3jbcno1eu" path="res://ui/hud/player_health_bar/player_health_bar.gd" id="1_uxy28"]
+
+[node name="PlayerHealthBar" type="GridContainer"]
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 10
+script = ExtResource("1_uxy28")
+max_health = 12

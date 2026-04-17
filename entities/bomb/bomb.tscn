@@ -1,0 +1,113 @@
+[gd_scene load_steps=9 format=3 uid="uid://cv2xc8hr0ew64"]
+
+[ext_resource type="Script" uid="uid://dihf481m34o6e" path="res://entities/bomb/bomb.gd" id="1_uehs2"]
+[ext_resource type="Texture2D" uid="uid://heldxaa2jh6o" path="res://entities/bomb/bomb.png" id="2_3fht7"]
+[ext_resource type="Script" uid="uid://clxb64dmswh13" path="res://entities/hurtbox/hurtbox.gd" id="3_uehs2"]
+[ext_resource type="Script" uid="uid://du4pgf3swa08u" path="res://entities/hitbox/hitbox.gd" id="4_5b527"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uehs2"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_5b527"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_uehs2"]
+resource_name = "ignite"
+length = 2.6
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.6666667, 1, 1.3333334, 1.6666666, 2, 2.3333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1), Vector2i(6, 1), Vector2i(7, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"explode"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8lf2k"]
+_data = {
+&"RESET": SubResource("Animation_5b527"),
+&"ignite": SubResource("Animation_uehs2")
+}
+
+[node name="Bomb" type="RigidBody2D"]
+collision_layer = 8
+lock_rotation = true
+script = ExtResource("1_uehs2")
+metadata/_custom_type_script = "uid://dtaujd78a2ayx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_uehs2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -6)
+texture = ExtResource("2_3fht7")
+hframes = 8
+vframes = 2
+
+[node name="Hurtbox" type="Area2D" parent="Sprite2D"]
+show_behind_parent = true
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_uehs2")
+metadata/_custom_type_script = "uid://clxb64dmswh13"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hurtbox"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_uehs2")
+debug_color = Color(0.4, 1, 0.4, 0.42)
+
+[node name="Hitbox" type="Area2D" parent="Sprite2D"]
+show_behind_parent = true
+collision_layer = 0
+collision_mask = 12
+script = ExtResource("4_5b527")
+metadata/_custom_type_script = "uid://du4pgf3swa08u"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hitbox"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_uehs2")
+debug_color = Color(0.4, 1, 0.4, 0.42)
+
+[node name="KnockbackCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8lf2k")
+}
+
+[connection signal="received_hit" from="Sprite2D/Hurtbox" to="." method="_on_hurtbox_received_hit"]
+[connection signal="hit_landed" from="Sprite2D/Hitbox" to="." method="_on_hitbox_hit_landed"]

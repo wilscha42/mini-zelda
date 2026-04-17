@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dg7xou6edqvx4"]
+
+[ext_resource type="PackedScene" uid="uid://cnnk1km4basfy" path="res://ui/hud/player_health_bar/player_health_bar.tscn" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://dpba80hg2gjag" path="res://game.gd" id="1_feb5d"]
+[ext_resource type="PackedScene" uid="uid://fal5ty84ktbr" path="res://levels/test_level/test_level.tscn" id="2_feb5d"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_feb5d")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="PlayerHealthBar" parent="HUD" instance=ExtResource("1_e2o6t")]
+offset_right = 160.0
+offset_bottom = 28.0
+health = 0
+
+[node name="TestLevel" parent="." instance=ExtResource("2_feb5d")]
